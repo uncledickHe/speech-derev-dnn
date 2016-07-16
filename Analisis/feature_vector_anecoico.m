@@ -1,4 +1,4 @@
-clear all
+clearvars
 clc
 
 directorio= uigetdir('/Volumes/Boot/00Files-tesis', 'Seleccione los archivos a analizar');

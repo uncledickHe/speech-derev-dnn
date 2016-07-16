@@ -1,9 +1,9 @@
-clear all
+clearvars
 clc
 
 directorio= uigetdir('/Volumes/Material/Eze/Drive/Tesis-Ezequiel/00-Audios', 'Seleccione los archivos a analizar');
 files= dir(fullfile(directorio, '*.wav'));   %nombres de los archivos
-directorio_salida= uigetdir('/Volumes/Material/single-STFT', 'Seleccione el directorio de salida');
+directorio_salida= uigetdir('/Volumes/Boot/00Files-tesis', 'Seleccione el directorio de salida');
 
 m = length(files);          %cantidad de archivos anecoicos
 fs = 16e3;                  %sampling rate
@@ -22,13 +22,13 @@ nfft = 512;                 %fft bins
 %K = sum(hamming(wlen, 'periodic'))/wlen;
 
 for ii=1:m 
-    nombre = strcat(directorio, '/', files(ii).name);                %nombre archivo anecoico
+    nombre = strcat(directorio, '/', files(ii).name);               %nombre archivo anecoico
     x = audioread(nombre);                                          
     [transformada, f, t] = stft(x, wlen, hlen, nfft, fs);           %STFT
-%    transformada = transformada/wlen/K;                
-    if rem(nfft, 2)                     % odd nfft excludes Nyquist point
+%   transformada = transformada/wlen/K;                
+    if rem(nfft, 2)                                                 %odd nfft excludes Nyquist point
         transformada(2:end, :) = transformada(2:end, :).*2;
-    else                        % even nfft includes Nyquist point
+    else                                                            %even nfft includes Nyquist point
         transformada(2:end-1, :) = transformada(2:end-1, :).*2;
     end
     
